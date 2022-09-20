@@ -71,20 +71,43 @@ class WidgetContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child:Container(
-        height: 200.0,
-        padding: const EdgeInsets.all(8.0),
-        margin: const EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 3.0,
-              ),
-            ]),
-        child: const Text("hello inside"))
-    );
+        child: Container(
+            height: 250.0,
+            padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 3.0,
+                  ),
+                ]),
+            child: HeatMap(
+              datasets: {
+                DateTime(2021, 1, 6): 3,
+                DateTime(2021, 1, 7): 7,
+                DateTime(2021, 1, 8): 10,
+                DateTime(2021, 1, 9): 13,
+                DateTime(2021, 1, 13): 6,
+              },
+              colorMode: ColorMode.opacity,
+              showText: false,
+              scrollable: true,
+              colorsets: {
+                1: Colors.red,
+                3: Colors.orange,
+                5: Colors.yellow,
+                7: Colors.green,
+                9: Colors.blue,
+                11: Colors.indigo,
+                13: Colors.purple,
+              },
+              onClick: (value) {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(value.toString())));
+              },
+            )));
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+
+// https://pub.dev/packages/graphql_flutter -> get started here for graphql
 
 class CodeActivity extends StatefulWidget {
   const CodeActivity({super.key});
@@ -14,11 +17,11 @@ class _CodeActivityState extends State<CodeActivity> {
     return Container(
         child: HeatMap(
       datasets: {
-        DateTime(2021, 1, 6): 3,
-        DateTime(2021, 1, 7): 7,
-        DateTime(2021, 1, 8): 10,
-        DateTime(2021, 1, 9): 13,
-        DateTime(2021, 1, 13): 6,
+        DateTime(2022, 9, 6): 3,
+        DateTime(2022, 9, 7): 7,
+        DateTime(2022, 9, 8): 10,
+        DateTime(2022, 9, 9): 13,
+        DateTime(2022, 9, 13): 6,
       },
       colorMode: ColorMode.opacity,
       showText: false,

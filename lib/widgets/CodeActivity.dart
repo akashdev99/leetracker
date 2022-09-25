@@ -41,12 +41,8 @@ Future<dynamic> fetchActiveDates() async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    // print(response.statusCode);
-    // print(response.body);
     return jsonDecode(response.body);
   } else {
-    print(response.statusCode);
-    print(response.body);
     // If the server did not return a 200 OK response,
     // then throw an exception.
     throw Exception('Failed to load album');
@@ -96,7 +92,6 @@ class _CodeActivityState extends State<CodeActivity> {
                 future: futureAlbum,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    // print(snapshot.data!.userId);
                     String activeDates = snapshot.data["data"]["matchedUser"]
                         ["userCalendar"]["submissionCalendar"];
 
@@ -106,7 +101,6 @@ class _CodeActivityState extends State<CodeActivity> {
                     dateTimeList.forEach(
                         (dateTime) => {activityFrequencyMap[dateTime] = 3});
 
-                    print(activityFrequencyMap);
                     return HeatMap(
                       datasets: activityFrequencyMap,
                       colorMode: ColorMode.opacity,

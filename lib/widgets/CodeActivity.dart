@@ -49,23 +49,24 @@ Future<dynamic> fetchActiveDates() async {
   }
 }
 
-List<DateTime> parseDates(String datesString) {
+Map<DateTime, int> parseDates(String datesString) {
   final quoteMatcher = RegExp(r'"(.*?)"');
 
-  Iterable<RegExpMatch> matches = quoteMatcher.allMatches(datesString);
-  List<DateTime> dateTimeList = [];
-  for (final match in matches) {
-    int dateUnix = int.parse(match[0]!.substring(1, match[0]!.length - 1));
+  Map<String, dynamic> jsonData = jsonDecode(datesString);
 
+  Map<DateTime, int> codeActivityMap = {};
+
+  jsonData.forEach((date, frequency) {
+    int dateUnix = int.parse(date);
     DateTime dateTimeObj = DateTime.fromMillisecondsSinceEpoch(dateUnix * 1000);
     dateTimeObj = dateTimeObj.subtract(Duration(
         hours: dateTimeObj.hour,
         minutes: dateTimeObj.minute,
         seconds: dateTimeObj.second));
 
-    dateTimeList.add(dateTimeObj);
-  }
-  return dateTimeList;
+    codeActivityMap[dateTimeObj] = frequency;
+  });
+  return codeActivityMap;
 }
 
 class CodeActivity extends StatefulWidget {
@@ -95,14 +96,11 @@ class _CodeActivityState extends State<CodeActivity> {
                     String activeDates = snapshot.data["data"]["matchedUser"]
                         ["userCalendar"]["submissionCalendar"];
 
-                    List<DateTime> dateTimeList = parseDates(activeDates);
-                    Map<DateTime, int> activityFrequencyMap = {};
-
-                    dateTimeList.forEach(
-                        (dateTime) => {activityFrequencyMap[dateTime] = 3});
+                    Map<DateTime, int> codeActivityMap =
+                        parseDates(activeDates);
 
                     return HeatMap(
-                      datasets: activityFrequencyMap,
+                      datasets: codeActivityMap,
                       colorMode: ColorMode.opacity,
                       showText: false,
                       scrollable: true,

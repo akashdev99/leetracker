@@ -4,8 +4,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-// https://pub.dev/packages/graphql_flutter -> get started here for graphql
-
 class Album {
   final int userId;
   final int id;
@@ -26,10 +24,10 @@ class Album {
   }
 }
 
-Future<dynamic> fetchAlbum() async {
+Future<dynamic> fetchActiveDates() async {
   Map<String, String> jsonMap = {
     "query":
-        "\n    query userProblemsSolved(\$username: String!) {\n  allQuestionsCount {\n    difficulty\n    count\n  }\n  matchedUser(username: \$username) {\n    problemsSolvedBeatsStats {\n      difficulty\n      percentage\n    }\n    submitStatsGlobal {\n      acSubmissionNum {\n        difficulty\n        count\n      }\n    }\n  }\n}\n    ",
+        "\n    query userProfileCalendar(\$username: String!, \$year: Int) {\n  matchedUser(username: \$username) {\n    userCalendar(year: \$year) {\n      activeYears\n      streak\n      totalActiveDays\n      dccBadges {\n        timestamp\n        badge {\n          name\n          icon\n        }\n      }\n      submissionCalendar\n    }\n  }\n}\n    ",
     "variables": jsonEncode({"username": "akashnandan99"})
   };
 
@@ -43,6 +41,8 @@ Future<dynamic> fetchAlbum() async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
+    // print(response.statusCode);
+    // print(response.body);
     return jsonDecode(response.body);
   } else {
     print(response.statusCode);
@@ -51,6 +51,25 @@ Future<dynamic> fetchAlbum() async {
     // then throw an exception.
     throw Exception('Failed to load album');
   }
+}
+
+List<DateTime> parseDates(String datesString) {
+  final quoteMatcher = RegExp(r'"(.*?)"');
+
+  Iterable<RegExpMatch> matches = quoteMatcher.allMatches(datesString);
+  List<DateTime> dateTimeList = [];
+  for (final match in matches) {
+    int dateUnix = int.parse(match[0]!.substring(1, match[0]!.length - 1));
+
+    DateTime dateTimeObj = DateTime.fromMillisecondsSinceEpoch(dateUnix * 1000);
+    dateTimeObj = dateTimeObj.subtract(Duration(
+        hours: dateTimeObj.hour,
+        minutes: dateTimeObj.minute,
+        seconds: dateTimeObj.second));
+
+    dateTimeList.add(dateTimeObj);
+  }
+  return dateTimeList;
 }
 
 class CodeActivity extends StatefulWidget {
@@ -66,7 +85,7 @@ class _CodeActivityState extends State<CodeActivity> {
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchAlbum();
+    futureAlbum = fetchActiveDates();
   }
 
   @override
@@ -77,40 +96,40 @@ class _CodeActivityState extends State<CodeActivity> {
                 future: futureAlbum,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    print(snapshot);
                     // print(snapshot.data!.userId);
-                    // print(snapshot.data!.title);
-                    return Text("Got something here");
+                    String activeDates = snapshot.data["data"]["matchedUser"]
+                        ["userCalendar"]["submissionCalendar"];
+
+                    List<DateTime> dateTimeList = parseDates(activeDates);
+                    Map<DateTime, int> activityFrequencyMap = {};
+
+                    dateTimeList.forEach(
+                        (dateTime) => {activityFrequencyMap[dateTime] = 3});
+
+                    print(activityFrequencyMap);
+                    return HeatMap(
+                      datasets: activityFrequencyMap,
+                      colorMode: ColorMode.opacity,
+                      showText: false,
+                      scrollable: true,
+                      colorsets: {
+                        // 1: Colors.red,
+                        // 3: Colors.orange,
+                        // 5: Colors.yellow,
+                        7: Colors.green,
+                        // 9: Colors.blue,
+                        // 11: Colors.indigo,
+                        // 13: Colors.purple,
+                      },
+                      onClick: (value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(value.toString())));
+                      },
+                    );
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
                   return const CircularProgressIndicator();
                 })));
-
-    //     HeatMap(
-    //   datasets: {
-    //     DateTime(2022, 9, 6): 3,
-    //     DateTime(2022, 9, 7): 7,
-    //     DateTime(2022, 9, 8): 10,
-    //     DateTime(2022, 9, 9): 13,
-    //     DateTime(2022, 9, 13): 6,
-    //   },
-    //   colorMode: ColorMode.opacity,
-    //   showText: false,
-    //   scrollable: true,
-    //   colorsets: {
-    //     1: Colors.red,
-    //     3: Colors.orange,
-    //     5: Colors.yellow,
-    //     7: Colors.green,
-    //     9: Colors.blue,
-    //     11: Colors.indigo,
-    //     13: Colors.purple,
-    //   },
-    //   onClick: (value) {
-    //     ScaffoldMessenger.of(context)
-    //         .showSnackBar(SnackBar(content: Text(value.toString())));
-    //   },
-    // ));
   }
 }

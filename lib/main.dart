@@ -53,13 +53,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                const WidgetContainer(child: const CodeActivity()),
+                const WidgetContainer(
+                  child: const CodeActivity(),
+                  Title: "Code Activity",
+                ),
               ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const WidgetContainer(child: const Text("test")),
-                  const WidgetContainer(child: const Text("test")),
+                  const WidgetContainer(
+                    child: const Text("test"),
+                    Title: "Code Activity",
+                  ),
+                  const WidgetContainer(
+                    child: const Text("test"),
+                    Title: "Code Activity",
+                  ),
                 ],
               ),
             ])));

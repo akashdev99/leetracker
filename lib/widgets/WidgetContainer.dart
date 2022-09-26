@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
+// https://medium.com/flutter-community/beginners-guide-to-text-styling-in-flutter-3939085d6607 -> text styleing (Title)
+
 class WidgetContainer extends StatelessWidget {
   final Widget? child;
-  const WidgetContainer({Key? key, @required this.child}) : super(key: key);
+  final String? Title;
+  const WidgetContainer({Key? key, @required this.child, @required this.Title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,15 @@ class WidgetContainer extends StatelessWidget {
                     blurRadius: 3.0,
                   ),
                 ]),
-            child: child));
+            child: Column(
+              children: [
+                Text(
+                  Title!,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+                Expanded(child: child!),
+              ],
+            )));
   }
 }

@@ -17,14 +17,9 @@ class WidgetContainer extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             margin: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 3.0,
-                  ),
-                ]),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
             child: Column(
               children: [
                 Text(

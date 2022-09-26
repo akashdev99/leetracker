@@ -44,33 +44,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey.shade100,
+        backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           title: Text(widget.title),
         ),
         body: Container(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                const WidgetContainer(
-                  child: const CodeActivity(),
-                  Title: "Code Activity",
-                ),
-              ]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const WidgetContainer(
-                    child: const Text("test"),
-                    Title: "Code Activity",
-                  ),
-                  const WidgetContainer(
-                    child: const Text("test"),
-                    Title: "Code Activity",
-                  ),
-                ],
-              ),
-            ])));
+            child:
+                ListView(padding: const EdgeInsets.all(8), children: <Widget>[
+          const WidgetContainer(
+            child: const CodeActivity(),
+            Title: "Code Activity",
+          ),
+          const WidgetContainer(
+            child: const Text("test"),
+            Title: "Code Activity",
+          ),
+          const WidgetContainer(
+            child: const Text("test"),
+            Title: "Code Activity",
+          )
+        ])));
   }
 }

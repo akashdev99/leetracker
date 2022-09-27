@@ -30,28 +30,33 @@ class _SolvedProblemsState extends State<SolvedProblems> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child:
-            // const Text("BOOM")
-
-            SfCircularChart(
-      tooltipBehavior: TooltipBehavior(enable: true),
-      series: <CircularSeries<ChartData, String>>[
-        DoughnutSeries<ChartData, String>(
-          startAngle: 0,
-          endAngle: 360,
-          innerRadius: "90%",
-          dataSource: [
-            ChartData('CHN', 10, Color.fromARGB(255, 92, 86, 85)),
-            ChartData('GER', 90, Color.fromARGB(239, 227, 168, 58)),
+    return Row(
+      children: [
+        Expanded(
+            child: Container(
+                child: SfCircularChart(
+          tooltipBehavior: TooltipBehavior(enable: true),
+          series: <CircularSeries<ChartData, String>>[
+            DoughnutSeries<ChartData, String>(
+              startAngle: 0,
+              endAngle: 360,
+              innerRadius: "90%",
+              radius: "80%",
+              dataSource: [
+                ChartData('CHN', 10, Color.fromARGB(255, 92, 86, 85)),
+                ChartData('GER', 90, Color.fromARGB(238, 123, 227, 58)),
+              ],
+              pointColorMapper: (ChartData data, _) => data.color,
+              xValueMapper: (ChartData data, _) => data.x,
+              yValueMapper: (ChartData data, _) => data.y,
+              name: 'Gold',
+            ),
           ],
-          pointColorMapper: (ChartData data, _) => data.color,
-          xValueMapper: (ChartData data, _) => data.x,
-          yValueMapper: (ChartData data, _) => data.y,
-          name: 'Gold',
-        ),
+        ))),
+        Expanded(child: const Text("Utilization details"))
+        // https://help.syncfusion.com/flutter/linear-gauge/getting-started
       ],
-    ));
+    );
   }
 }
 

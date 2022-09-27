@@ -3,6 +3,7 @@ import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
 import 'package:leetrack/widgets/CodeActivity.dart';
 import 'package:leetrack/widgets/WidgetContainer.dart';
+import 'package:leetrack/widgets/SolvedProblems.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,8 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
             child: const CodeActivity(),
             Title: "Code Activity",
           ),
+          // const SolvedProblems(),
           const WidgetContainer(
-            child: const Text("test"),
+            child: const SolvedProblems(),
             Title: "Code Activity",
           ),
           const WidgetContainer(

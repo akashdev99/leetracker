@@ -11,24 +11,23 @@ class WidgetContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Container(
-            height: 250.0,
-            padding: const EdgeInsets.all(8.0),
-            margin: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
+    return Container(
+        height: 250.0,
+        padding: const EdgeInsets.all(8.0),
+        margin: const EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Column(
+          children: [
+            Text(
+              Title!,
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.left,
             ),
-            child: Column(
-              children: [
-                Text(
-                  Title!,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.left,
-                ),
-                Expanded(child: child!),
-              ],
-            )));
+            Expanded(child: child!),
+          ],
+        ));
   }
 }

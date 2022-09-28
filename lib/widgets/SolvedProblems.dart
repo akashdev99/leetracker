@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import 'package:leetrack/widgets/LinearRange.dart';
+
 class SolvedProblems extends StatefulWidget {
   const SolvedProblems({super.key});
 
@@ -62,70 +64,27 @@ class _SolvedProblemsState extends State<SolvedProblems> {
               direction: Axis.horizontal, // make sure to set this
               spacing: 80, // set your spacing
               runSpacing: 20,
-              children: [
+              children: const [
                 // Expanded(
-                SfLinearGauge(
-                    animateRange: true,
-                    animationDuration: 3000,
-                    //do better animations  later
-                    ranges: const [
-                      LinearGaugeRange(
-                          startValue: 0,
-                          endValue: 50,
-                          color: Colors.blueAccent),
-                      //Second range.
-                      LinearGaugeRange(
-                          startValue: 50,
-                          endValue: 100,
-                          color: Colors.redAccent),
-                    ],
-                    axisTrackStyle: LinearAxisTrackStyle(thickness: 0),
-                    majorTickStyle: const LinearTickStyle(
-                        length: 0, thickness: 0, color: Colors.black),
-                    minorTickStyle: const LinearTickStyle(
-                        length: 0, thickness: 0, color: Colors.black),
-                    showLabels: false),
-                // ),
-                // Expanded(
-                SfLinearGauge(
-                    animateRange: true,
-                    animationDuration: 3000,
-                    ranges: const [
-                      LinearGaugeRange(
-                          startValue: 0,
-                          endValue: 50,
-                          color: Colors.blueAccent),
-                      //Second range.
-                      LinearGaugeRange(
-                          startValue: 50, endValue: 100, color: Colors.green),
-                    ],
-                    axisTrackStyle: LinearAxisTrackStyle(thickness: 0),
-                    majorTickStyle: const LinearTickStyle(
-                        length: 0, thickness: 0, color: Colors.black),
-                    minorTickStyle: const LinearTickStyle(
-                        length: 0, thickness: 0, color: Colors.black),
-                    showLabels: false),
-                // ),
-                // Expanded(
-                // child:
-                SfLinearGauge(
-                    animateRange: true,
-                    animationDuration: 3000,
-                    ranges: const [
-                      LinearGaugeRange(
-                          startValue: 0,
-                          endValue: 50,
-                          color: Colors.blueAccent),
-                      //Second range.
-                      LinearGaugeRange(
-                          startValue: 50, endValue: 100, color: Colors.yellow),
-                    ],
-                    axisTrackStyle: LinearAxisTrackStyle(thickness: 0),
-                    majorTickStyle: const LinearTickStyle(
-                        length: 0, thickness: 0, color: Colors.black),
-                    minorTickStyle: const LinearTickStyle(
-                        length: 0, thickness: 0, color: Colors.black),
-                    showLabels: false),
+                LinearRange(
+                  startRangeColor: Colors.greenAccent,
+                  endRangeColor: Colors.grey,
+                  rangeFirst: [0, 10],
+                  rangeSecond: [10, 100],
+                ),
+
+                LinearRange(
+                  startRangeColor: Colors.greenAccent,
+                  endRangeColor: Colors.grey,
+                  rangeFirst: [0, 10],
+                  rangeSecond: [10, 100],
+                ),
+                LinearRange(
+                  startRangeColor: Colors.greenAccent,
+                  endRangeColor: Colors.grey,
+                  rangeFirst: [0, 10],
+                  rangeSecond: [10, 100],
+                ),
                 // )
               ],
             ))

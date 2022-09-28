@@ -50,21 +50,22 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         body: Container(
-            child:
-                ListView(padding: const EdgeInsets.all(8), children: <Widget>[
-          const WidgetContainer(
-            child: const CodeActivity(),
-            Title: "Code Activity",
-          ),
-          // const SolvedProblems(),
-          const WidgetContainer(
-            child: const SolvedProblems(),
-            Title: "Code Activity",
-          ),
-          const WidgetContainer(
-            child: const Text("test"),
-            Title: "Code Activity",
-          )
-        ])));
+            child: ListView(
+                padding: const EdgeInsets.all(8),
+                children: const <Widget>[
+              WidgetContainer(
+                Title: "Code Activity",
+                child: CodeActivity(),
+              ),
+              // const SolvedProblems(),
+              WidgetContainer(
+                Title: "Solved Problems",
+                child: SolvedProblems(),
+              ),
+              WidgetContainer(
+                Title: "Code Activity",
+                child: Text("test"),
+              )
+            ])));
   }
 }

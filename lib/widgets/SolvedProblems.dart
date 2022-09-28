@@ -1,11 +1,38 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import 'package:leetrack/widgets/LinearRange.dart';
+
+Future<dynamic> fetchSolvedProblemStats() async {
+  Map<String, String> jsonMap = {
+    "query":
+        "\n    query userProfileCalendar(\$username: String!, \$year: Int) {\n  matchedUser(username: \$username) {\n    userCalendar(year: \$year) {\n      activeYears\n      streak\n      totalActiveDays\n      dccBadges {\n        timestamp\n        badge {\n          name\n          icon\n        }\n      }\n      submissionCalendar\n    }\n  }\n}\n    ",
+    "variables": jsonEncode({"username": "akashnandan99"})
+  };
+
+  Map<String, String> header = {
+    "Referer": "yourReferer",
+    "Content-Type": "application/json"
+  };
+  final response = await http.post('https://leetcode.com/graphql/',
+      body: jsonEncode(jsonMap), headers: header);
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return jsonDecode(response.body);
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed Solved problem Stats');
+  }
+}
 
 class SolvedProblems extends StatefulWidget {
   const SolvedProblems({super.key});
@@ -17,6 +44,9 @@ class SolvedProblems extends StatefulWidget {
 class _SolvedProblemsState extends State<SolvedProblems> {
   // late List<ChartData> data;
   late TooltipBehavior _tooltip;
+  late Future<dynamic> solvedStats;
+
+  // "\n    query userProblemsSolved($username: String!) {\n  allQuestionsCount {\n    difficulty\n    count\n  }\n  matchedUser(username: $username) {\n    problemsSolvedBeatsStats {\n      difficulty\n      percentage\n    }\n    submitStatsGlobal {\n      acSubmissionNum {\n        difficulty\n        count\n      }\n    }\n  }\n}\n    "
 
   @override
   void initState() {
@@ -27,6 +57,8 @@ class _SolvedProblemsState extends State<SolvedProblems> {
     //   ChartData('BRZ', 6.4),
     //   ChartData('IND', 14)
     // ];
+    solvedStats = fetchSolvedProblemStats();
+
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
   }

@@ -46,17 +46,8 @@ class _SolvedProblemsState extends State<SolvedProblems> {
   late TooltipBehavior _tooltip;
   late Future<dynamic> solvedStats;
 
-  // "\n    query userProblemsSolved($username: String!) {\n  allQuestionsCount {\n    difficulty\n    count\n  }\n  matchedUser(username: $username) {\n    problemsSolvedBeatsStats {\n      difficulty\n      percentage\n    }\n    submitStatsGlobal {\n      acSubmissionNum {\n        difficulty\n        count\n      }\n    }\n  }\n}\n    "
-
   @override
   void initState() {
-    // data = [
-    //   ChartData('CHN', 12),
-    //   ChartData('GER', 15),
-    //   ChartData('RUS', 30),
-    //   ChartData('BRZ', 6.4),
-    //   ChartData('IND', 14)
-    // ];
     solvedStats = fetchSolvedProblemStats();
 
     _tooltip = TooltipBehavior(enable: true);
@@ -92,9 +83,8 @@ class _SolvedProblemsState extends State<SolvedProblems> {
         Expanded(
             flex: 3,
             child: Wrap(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              direction: Axis.horizontal, // make sure to set this
-              spacing: 80, // set your spacing
+              direction: Axis.horizontal,
+              spacing: 80,
               runSpacing: 20,
               children: const [
                 // Expanded(
@@ -120,7 +110,6 @@ class _SolvedProblemsState extends State<SolvedProblems> {
                 // )
               ],
             ))
-        // https://help.syncfusion.com/flutter/linear-gauge/getting-started
       ],
     );
   }

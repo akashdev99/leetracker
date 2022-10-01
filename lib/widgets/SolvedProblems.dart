@@ -46,6 +46,51 @@ class _SolvedProblemsState extends State<SolvedProblems> {
   late TooltipBehavior _tooltip;
   late Future<dynamic> solvedStats;
 
+  Map<String, int> getSubmissionCountMap(List<dynamic> submitStats) {
+    Map<String, int> submissionsCountMap = {};
+
+    submitStats.forEach((submissionObj) {
+      if (submissionObj["difficulty"] == "Easy") {
+        submissionsCountMap["Easy"] = submissionObj["count"];
+      } else if (submissionObj["difficulty"] == "Medium") {
+        submissionsCountMap["Medium"] = submissionObj["count"];
+      } else if (submissionObj["difficulty"] == "Hard") {
+        submissionsCountMap["Hard"] = submissionObj["count"];
+      }
+    });
+    return submissionsCountMap;
+  }
+
+  Map<String, double> getBeatsPercent(List<dynamic> problemsSolvedBeatsStats) {
+    Map<String, double> beatsPercentMap = {};
+
+    problemsSolvedBeatsStats.forEach((submissionObj) {
+      if (submissionObj["difficulty"] == "Easy") {
+        beatsPercentMap["Easy"] = submissionObj["percentage"];
+      } else if (submissionObj["difficulty"] == "Medium") {
+        beatsPercentMap["Medium"] = submissionObj["percentage"];
+      } else if (submissionObj["difficulty"] == "Hard") {
+        beatsPercentMap["Hard"] = submissionObj["percentage"];
+      }
+    });
+    return beatsPercentMap;
+  }
+
+  Map<String, int> getSubmissionCount(List<dynamic> submitStats) {
+    Map<String, int> submissionsCountMap = {};
+
+    submitStats.forEach((submissionObj) {
+      if (submissionObj["difficulty"] == "Easy") {
+        submissionsCountMap["Easy"] = submissionObj["count"];
+      } else if (submissionObj["difficulty"] == "Medium") {
+        submissionsCountMap["Medium"] = submissionObj["count"];
+      } else if (submissionObj["difficulty"] == "Hard") {
+        submissionsCountMap["Hard"] = submissionObj["count"];
+      }
+    });
+    return submissionsCountMap;
+  }
+
   @override
   void initState() {
     solvedStats = fetchSolvedProblemStats();
@@ -95,71 +140,52 @@ class _SolvedProblemsState extends State<SolvedProblems> {
                     List<dynamic> submitStats = snapshot.data["data"]
                         ["matchedUser"]["submitStatsGlobal"]["acSubmissionNum"];
 
-                    Map<String, int> totalCountMap = {};
-                    Map<String, int> submissionsCountMap = {};
-                    Map<String, double> submissionsPercenttMap = {};
-                    // print(submitStats);
-                    submitStats.forEach((submissionObj) {
-                      if (submissionObj["difficulty"] == "Easy") {
-                        submissionsCountMap["Easy"] = submissionObj["count"];
-                      } else if (submissionObj["difficulty"] == "Medium") {
-                        submissionsCountMap["Medium"] = submissionObj["count"];
-                      } else if (submissionObj["difficulty"] == "Hard") {
-                        submissionsCountMap["Hard"] = submissionObj["count"];
-                      }
-                    });
-                    print(submissionsCountMap);
+                    Map<String, int> totalCountMap =
+                        getSubmissionCountMap(allQuestionCount);
+                    // Map<String, int> totalCountMap = {};
+                    Map<String, int> submissionsCountMap =
+                        getSubmissionCount(submitStats);
+                    Map<String, double> beatsPercenttMap =
+                        getBeatsPercent(problemsSolvedBeatsStats);
 
-                    problemsSolvedBeatsStats.forEach((submissionObj) {
-                      if (submissionObj["difficulty"] == "Easy") {
-                        submissionsPercenttMap["Easy"] =
-                            submissionObj["percentage"];
-                      } else if (submissionObj["difficulty"] == "Medium") {
-                        submissionsPercenttMap["Medium"] =
-                            submissionObj["percentage"];
-                      } else if (submissionObj["difficulty"] == "Hard") {
-                        submissionsPercenttMap["Hard"] =
-                            submissionObj["percentage"];
-                      }
-                    });
-                    print(submissionsPercenttMap);
-
-                    allQuestionCount.forEach((submissionObj) {
-                      if (submissionObj["difficulty"] == "Easy") {
-                        totalCountMap["Easy"] = submissionObj["count"];
-                      } else if (submissionObj["difficulty"] == "Medium") {
-                        totalCountMap["Medium"] = submissionObj["count"];
-                      } else if (submissionObj["difficulty"] == "Hard") {
-                        totalCountMap["Hard"] = submissionObj["count"];
-                      }
-                    });
-                    print(totalCountMap);
+                    double easyPercentCompletion =
+                        (submissionsCountMap["Easy"]! /
+                                totalCountMap["Easy"]!) *
+                            100;
+                    double mediumPercentCompletion =
+                        (submissionsCountMap["Medium"]! /
+                                totalCountMap["Medium"]!) *
+                            100;
+                    double hardPercentCompletion =
+                        (submissionsCountMap["Hard"]! /
+                                totalCountMap["Hard"]!) *
+                            100;
 
                     return Wrap(
                       direction: Axis.horizontal,
                       spacing: 80,
                       runSpacing: 20,
-                      children: const [
+                      children: [
                         // Expanded(
 
                         LinearRange(
                           startRangeColor: Colors.greenAccent,
                           endRangeColor: Colors.grey,
-                          rangeFirst: [0, 10.50],
-                          rangeSecond: [10.50, 100],
+                          rangeFirst: [0, easyPercentCompletion],
+                          rangeSecond: [easyPercentCompletion, 100],
                         ),
 
                         LinearRange(
-                          startRangeColor: Colors.greenAccent,
+                          startRangeColor: Colors.yellowAccent,
                           endRangeColor: Colors.grey,
-                          rangeFirst: [0, 10],
-                          rangeSecond: [10, 100],
+                          rangeFirst: [0, mediumPercentCompletion],
+                          rangeSecond: [mediumPercentCompletion, 100],
                         ),
                         LinearRange(
-                          startRangeColor: Colors.greenAccent,
+                          startRangeColor: Colors.redAccent,
                           endRangeColor: Colors.grey,
-                          rangeFirst: [0, 10],
-                          rangeSecond: [10, 100],
+                          rangeFirst: [0, hardPercentCompletion],
+                          rangeSecond: [hardPercentCompletion, 100],
                         ),
                         // )
                       ],

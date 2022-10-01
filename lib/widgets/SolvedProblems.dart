@@ -12,7 +12,7 @@ import 'package:leetrack/widgets/LinearRange.dart';
 Future<dynamic> fetchSolvedProblemStats() async {
   Map<String, String> jsonMap = {
     "query":
-        "\n    query userProfileCalendar(\$username: String!, \$year: Int) {\n  matchedUser(username: \$username) {\n    userCalendar(year: \$year) {\n      activeYears\n      streak\n      totalActiveDays\n      dccBadges {\n        timestamp\n        badge {\n          name\n          icon\n        }\n      }\n      submissionCalendar\n    }\n  }\n}\n    ",
+        "\nquery userProblemsSolved(\$username: String!) {\nallQuestionsCount {\ndifficulty\n    count\n  }\n  matchedUser(username: \$username) {\n    problemsSolvedBeatsStats {\n      difficulty\n      percentage\n    }\n    submitStatsGlobal {\nacSubmissionNum {\ndifficulty\ncount\n}\n    }\n  }\n}\n    ",
     "variables": jsonEncode({"username": "akashnandan99"})
   };
 
@@ -82,34 +82,93 @@ class _SolvedProblemsState extends State<SolvedProblems> {
             ))),
         Expanded(
             flex: 3,
-            child: Wrap(
-              direction: Axis.horizontal,
-              spacing: 80,
-              runSpacing: 20,
-              children: const [
-                // Expanded(
-                LinearRange(
-                  startRangeColor: Colors.greenAccent,
-                  endRangeColor: Colors.grey,
-                  rangeFirst: [0, 10],
-                  rangeSecond: [10, 100],
-                ),
+            child: FutureBuilder<dynamic>(
+                future: solvedStats,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    // String activeDates = snapshot.data;
+                    List<dynamic> allQuestionCount =
+                        snapshot.data["data"]["allQuestionsCount"];
+                    List<dynamic> problemsSolvedBeatsStats =
+                        snapshot.data["data"]["matchedUser"]
+                            ["problemsSolvedBeatsStats"];
+                    List<dynamic> submitStats = snapshot.data["data"]
+                        ["matchedUser"]["submitStatsGlobal"]["acSubmissionNum"];
 
-                LinearRange(
-                  startRangeColor: Colors.greenAccent,
-                  endRangeColor: Colors.grey,
-                  rangeFirst: [0, 10],
-                  rangeSecond: [10, 100],
-                ),
-                LinearRange(
-                  startRangeColor: Colors.greenAccent,
-                  endRangeColor: Colors.grey,
-                  rangeFirst: [0, 10],
-                  rangeSecond: [10, 100],
-                ),
-                // )
-              ],
-            ))
+                    Map<String, int> totalCountMap = {};
+                    Map<String, int> submissionsCountMap = {};
+                    Map<String, double> submissionsPercenttMap = {};
+                    // print(submitStats);
+                    submitStats.forEach((submissionObj) {
+                      if (submissionObj["difficulty"] == "Easy") {
+                        submissionsCountMap["Easy"] = submissionObj["count"];
+                      } else if (submissionObj["difficulty"] == "Medium") {
+                        submissionsCountMap["Medium"] = submissionObj["count"];
+                      } else if (submissionObj["difficulty"] == "Hard") {
+                        submissionsCountMap["Hard"] = submissionObj["count"];
+                      }
+                    });
+                    print(submissionsCountMap);
+
+                    problemsSolvedBeatsStats.forEach((submissionObj) {
+                      if (submissionObj["difficulty"] == "Easy") {
+                        submissionsPercenttMap["Easy"] =
+                            submissionObj["percentage"];
+                      } else if (submissionObj["difficulty"] == "Medium") {
+                        submissionsPercenttMap["Medium"] =
+                            submissionObj["percentage"];
+                      } else if (submissionObj["difficulty"] == "Hard") {
+                        submissionsPercenttMap["Hard"] =
+                            submissionObj["percentage"];
+                      }
+                    });
+                    print(submissionsPercenttMap);
+
+                    allQuestionCount.forEach((submissionObj) {
+                      if (submissionObj["difficulty"] == "Easy") {
+                        totalCountMap["Easy"] = submissionObj["count"];
+                      } else if (submissionObj["difficulty"] == "Medium") {
+                        totalCountMap["Medium"] = submissionObj["count"];
+                      } else if (submissionObj["difficulty"] == "Hard") {
+                        totalCountMap["Hard"] = submissionObj["count"];
+                      }
+                    });
+                    print(totalCountMap);
+
+                    return Wrap(
+                      direction: Axis.horizontal,
+                      spacing: 80,
+                      runSpacing: 20,
+                      children: const [
+                        // Expanded(
+
+                        LinearRange(
+                          startRangeColor: Colors.greenAccent,
+                          endRangeColor: Colors.grey,
+                          rangeFirst: [0, 10.50],
+                          rangeSecond: [10.50, 100],
+                        ),
+
+                        LinearRange(
+                          startRangeColor: Colors.greenAccent,
+                          endRangeColor: Colors.grey,
+                          rangeFirst: [0, 10],
+                          rangeSecond: [10, 100],
+                        ),
+                        LinearRange(
+                          startRangeColor: Colors.greenAccent,
+                          endRangeColor: Colors.grey,
+                          rangeFirst: [0, 10],
+                          rangeSecond: [10, 100],
+                        ),
+                        // )
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  }
+                  return const CircularProgressIndicator();
+                }))
       ],
     );
   }
@@ -120,4 +179,10 @@ class ChartData {
   final String x;
   final double y;
   final Color color;
+}
+
+class QuestionCount {
+  QuestionCount(this.difficulty, this.count);
+  final String difficulty;
+  final int count;
 }

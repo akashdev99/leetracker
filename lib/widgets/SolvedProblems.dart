@@ -142,7 +142,6 @@ class _SolvedProblemsState extends State<SolvedProblems> {
 
                     Map<String, int> totalCountMap =
                         getSubmissionCountMap(allQuestionCount);
-                    // Map<String, int> totalCountMap = {};
                     Map<String, int> submissionsCountMap =
                         getSubmissionCount(submitStats);
                     Map<String, double> beatsPercenttMap =
@@ -166,13 +165,15 @@ class _SolvedProblemsState extends State<SolvedProblems> {
                       spacing: 80,
                       runSpacing: 20,
                       children: [
-                        // Expanded(
-
                         LinearRange(
                           startRangeColor: Colors.greenAccent,
                           endRangeColor: Colors.grey,
                           rangeFirst: [0, easyPercentCompletion],
                           rangeSecond: [easyPercentCompletion, 100],
+                          type: "Easy",
+                          completionPercent:
+                              easyPercentCompletion.toStringAsFixed(2),
+                          beatsPercent: beatsPercenttMap["Easy"],
                         ),
 
                         LinearRange(
@@ -180,12 +181,20 @@ class _SolvedProblemsState extends State<SolvedProblems> {
                           endRangeColor: Colors.grey,
                           rangeFirst: [0, mediumPercentCompletion],
                           rangeSecond: [mediumPercentCompletion, 100],
+                          type: "Medium",
+                          completionPercent:
+                              mediumPercentCompletion.toStringAsFixed(2),
+                          beatsPercent: beatsPercenttMap["Medium"],
                         ),
                         LinearRange(
                           startRangeColor: Colors.redAccent,
                           endRangeColor: Colors.grey,
                           rangeFirst: [0, hardPercentCompletion],
                           rangeSecond: [hardPercentCompletion, 100],
+                          type: "Hard",
+                          completionPercent:
+                              hardPercentCompletion.toStringAsFixed(2),
+                          beatsPercent: beatsPercenttMap["Hard"],
                         ),
                         // )
                       ],

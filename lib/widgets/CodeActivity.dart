@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'dart:convert';
+import 'package:leetrack/views/SubmissionPage.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -122,7 +123,7 @@ class _CodeActivityState extends State<CodeActivity> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Text("")),
+              MaterialPageRoute(builder: (context) => const SubmissionPage()),
             );
           },
         ),

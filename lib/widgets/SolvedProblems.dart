@@ -88,121 +88,128 @@ class _SolvedProblemsState extends State<SolvedProblems> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<dynamic>(
-        future: solvedStats,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<dynamic> allQuestionCount =
-                snapshot.data["data"]["allQuestionsCount"];
-            List<dynamic> problemsSolvedBeatsStats = snapshot.data["data"]
-                ["matchedUser"]["problemsSolvedBeatsStats"];
-            List<dynamic> submitStats = snapshot.data["data"]["matchedUser"]
-                ["submitStatsGlobal"]["acSubmissionNum"];
+    return Center(
+        child: FutureBuilder<dynamic>(
+            future: solvedStats,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<dynamic> allQuestionCount =
+                    snapshot.data["data"]["allQuestionsCount"];
+                List<dynamic> problemsSolvedBeatsStats = snapshot.data["data"]
+                    ["matchedUser"]["problemsSolvedBeatsStats"];
+                List<dynamic> submitStats = snapshot.data["data"]["matchedUser"]
+                    ["submitStatsGlobal"]["acSubmissionNum"];
 
-            Map<String, int> totalCountMap =
-                getSubmissionCountMap(allQuestionCount);
-            Map<String, int> submissionsCountMap =
-                getSubmissionCountMap(submitStats);
-            Map<String, double> beatsPercenttMap =
-                getBeatsPercent(problemsSolvedBeatsStats);
+                Map<String, int> totalCountMap =
+                    getSubmissionCountMap(allQuestionCount);
+                Map<String, int> submissionsCountMap =
+                    getSubmissionCountMap(submitStats);
+                Map<String, double> beatsPercenttMap =
+                    getBeatsPercent(problemsSolvedBeatsStats);
 
-            double easyPercentCompletion =
-                (submissionsCountMap["Easy"]! / totalCountMap["Easy"]!) * 100;
-            double mediumPercentCompletion =
-                (submissionsCountMap["Medium"]! / totalCountMap["Medium"]!) *
-                    100;
-            double hardPercentCompletion =
-                (submissionsCountMap["Hard"]! / totalCountMap["Hard"]!) * 100;
-            double overallCompletionPercent =
-                (submissionsCountMap["All"]! / totalCountMap["All"]!) * 100;
+                double easyPercentCompletion =
+                    (submissionsCountMap["Easy"]! / totalCountMap["Easy"]!) *
+                        100;
+                double mediumPercentCompletion =
+                    (submissionsCountMap["Medium"]! /
+                            totalCountMap["Medium"]!) *
+                        100;
+                double hardPercentCompletion =
+                    (submissionsCountMap["Hard"]! / totalCountMap["Hard"]!) *
+                        100;
+                double overallCompletionPercent =
+                    (submissionsCountMap["All"]! / totalCountMap["All"]!) * 100;
 
-            return Row(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: Container(
-                        child: SfCircularChart(
-                      tooltipBehavior: TooltipBehavior(enable: true),
-                      annotations: <CircularChartAnnotation>[
-                        CircularChartAnnotation(
-                            widget: Container(
-                                child: Text(
-                                    overallCompletionPercent
-                                            .toStringAsFixed(2) +
-                                        "%",
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(0, 0, 0, 0.5),
-                                        fontSize: 25))))
-                      ],
-                      //MAKE A component TODO
-                      series: <CircularSeries<ChartData, String>>[
-                        DoughnutSeries<ChartData, String>(
-                          startAngle: 0,
-                          endAngle: 360,
-                          innerRadius: "90%",
-                          radius: "80%",
-                          dataSource: [
-                            ChartData(
-                                'Done', overallCompletionPercent, Colors.green),
-                            ChartData('NotDone', 100 - overallCompletionPercent,
-                                Colors.blueGrey.shade100),
+                return Row(
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: Container(
+                            child: SfCircularChart(
+                          tooltipBehavior: TooltipBehavior(enable: true),
+                          annotations: <CircularChartAnnotation>[
+                            CircularChartAnnotation(
+                                widget: Container(
+                                    child: Text(
+                                        overallCompletionPercent
+                                                .toStringAsFixed(2) +
+                                            "%",
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(0, 0, 0, 0.5),
+                                            fontSize: 25))))
                           ],
-                          pointColorMapper: (ChartData data, _) => data.color,
-                          xValueMapper: (ChartData data, _) => data.x,
-                          yValueMapper: (ChartData data, _) => data.y,
-                          name: 'Gold',
-                        ),
-                      ],
-                    ))),
-                Expanded(
-                    flex: 3,
-                    child: Wrap(
-                      direction: Axis.horizontal,
-                      spacing: 80,
-                      runSpacing: 20,
-                      children: [
-                        LinearRange(
-                          startRangeColor: Colors.greenAccent,
-                          endRangeColor: Colors.blueGrey.shade100,
-                          rangeFirst: [0, easyPercentCompletion],
-                          rangeSecond: [easyPercentCompletion, 100],
-                          type: "Easy",
-                          completionPercent:
-                              easyPercentCompletion.toStringAsFixed(2),
-                          beatsPercent: beatsPercenttMap["Easy"],
-                        ),
+                          //MAKE A component TODO
+                          series: <CircularSeries<ChartData, String>>[
+                            DoughnutSeries<ChartData, String>(
+                              startAngle: 0,
+                              endAngle: 360,
+                              innerRadius: "90%",
+                              radius: "80%",
+                              dataSource: [
+                                ChartData('Done', overallCompletionPercent,
+                                    Colors.green),
+                                ChartData(
+                                    'NotDone',
+                                    100 - overallCompletionPercent,
+                                    Colors.blueGrey.shade100),
+                              ],
+                              pointColorMapper: (ChartData data, _) =>
+                                  data.color,
+                              xValueMapper: (ChartData data, _) => data.x,
+                              yValueMapper: (ChartData data, _) => data.y,
+                              name: 'Gold',
+                            ),
+                          ],
+                        ))),
+                    Expanded(
+                        flex: 3,
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          spacing: 80,
+                          runSpacing: 20,
+                          children: [
+                            LinearRange(
+                              startRangeColor: Colors.greenAccent,
+                              endRangeColor: Colors.blueGrey.shade100,
+                              rangeFirst: [0, easyPercentCompletion],
+                              rangeSecond: [easyPercentCompletion, 100],
+                              type: "Easy",
+                              completionPercent:
+                                  easyPercentCompletion.toStringAsFixed(2),
+                              beatsPercent: beatsPercenttMap["Easy"],
+                            ),
 
-                        LinearRange(
-                          startRangeColor: Colors.yellowAccent,
-                          endRangeColor: Colors.blueGrey.shade100,
-                          rangeFirst: [0, mediumPercentCompletion],
-                          rangeSecond: [mediumPercentCompletion, 100],
-                          type: "Medium",
-                          completionPercent:
-                              mediumPercentCompletion.toStringAsFixed(2),
-                          beatsPercent: beatsPercenttMap["Medium"],
-                        ),
-                        LinearRange(
-                          startRangeColor: Colors.redAccent,
-                          endRangeColor: Colors.blueGrey.shade100,
-                          rangeFirst: [0, hardPercentCompletion],
-                          rangeSecond: [hardPercentCompletion, 100],
-                          type: "Hard",
-                          completionPercent:
-                              hardPercentCompletion.toStringAsFixed(2),
-                          beatsPercent: beatsPercenttMap["Hard"],
-                        ),
-                        // )
-                      ],
-                    ))
-              ],
-            );
-            ;
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return const CircularProgressIndicator();
-        });
+                            LinearRange(
+                              startRangeColor: Colors.yellowAccent,
+                              endRangeColor: Colors.blueGrey.shade100,
+                              rangeFirst: [0, mediumPercentCompletion],
+                              rangeSecond: [mediumPercentCompletion, 100],
+                              type: "Medium",
+                              completionPercent:
+                                  mediumPercentCompletion.toStringAsFixed(2),
+                              beatsPercent: beatsPercenttMap["Medium"],
+                            ),
+                            LinearRange(
+                              startRangeColor: Colors.redAccent,
+                              endRangeColor: Colors.blueGrey.shade100,
+                              rangeFirst: [0, hardPercentCompletion],
+                              rangeSecond: [hardPercentCompletion, 100],
+                              type: "Hard",
+                              completionPercent:
+                                  hardPercentCompletion.toStringAsFixed(2),
+                              beatsPercent: beatsPercenttMap["Hard"],
+                            ),
+                            // )
+                          ],
+                        ))
+                  ],
+                );
+                ;
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return CircularProgressIndicator();
+            }));
   }
 }
 

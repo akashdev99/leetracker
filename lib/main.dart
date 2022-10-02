@@ -4,6 +4,7 @@ import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:leetrack/widgets/CodeActivity.dart';
 import 'package:leetrack/widgets/WidgetContainer.dart';
 import 'package:leetrack/widgets/SolvedProblems.dart';
+import 'package:leetrack/Components/ScaffoldBase.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,32 +45,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.grey.shade200,
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Container(
-            child: ListView(
-                padding: const EdgeInsets.all(8),
-                children: const <Widget>[
-              WidgetContainer(
-                Title: "Code Activity",
-                child: CodeActivity(),
-                Height: 300.0,
-              ),
-              // const SolvedProblems(),
-              WidgetContainer(
-                Title: "Solved Problems",
-                child: SolvedProblems(),
-                Height: 250.0,
-              ),
-              WidgetContainer(
-                Title: "Solution By Language",
-                //TODOAdd Histogram grams
-                child: Text("test"),
-                Height: 250.0,
-              )
-            ])));
+    return ScaffoldBase(
+        title: widget.title,
+        childPadding: 8,
+        child: const <Widget>[
+          WidgetContainer(
+            Title: "Code Activity",
+            child: CodeActivity(),
+            Height: 300.0,
+          ),
+          // const SolvedProblems(),
+          WidgetContainer(
+            Title: "Solved Problems",
+            child: SolvedProblems(),
+            Height: 250.0,
+          ),
+          WidgetContainer(
+            Title: "Solution By Language",
+            //TODOAdd Histogram grams
+            child: Text("test"),
+            Height: 250.0,
+          )
+        ]);
   }
 }

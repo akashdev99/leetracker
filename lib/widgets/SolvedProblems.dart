@@ -56,6 +56,8 @@ class _SolvedProblemsState extends State<SolvedProblems> {
         submissionsCountMap["Medium"] = submissionObj["count"];
       } else if (submissionObj["difficulty"] == "Hard") {
         submissionsCountMap["Hard"] = submissionObj["count"];
+      } else if (submissionObj["difficulty"] == "All") {
+        submissionsCountMap["All"] = submissionObj["count"];
       }
     });
     return submissionsCountMap;
@@ -76,21 +78,6 @@ class _SolvedProblemsState extends State<SolvedProblems> {
     return beatsPercentMap;
   }
 
-  Map<String, int> getSubmissionCount(List<dynamic> submitStats) {
-    Map<String, int> submissionsCountMap = {};
-
-    submitStats.forEach((submissionObj) {
-      if (submissionObj["difficulty"] == "Easy") {
-        submissionsCountMap["Easy"] = submissionObj["count"];
-      } else if (submissionObj["difficulty"] == "Medium") {
-        submissionsCountMap["Medium"] = submissionObj["count"];
-      } else if (submissionObj["difficulty"] == "Hard") {
-        submissionsCountMap["Hard"] = submissionObj["count"];
-      }
-    });
-    return submissionsCountMap;
-  }
-
   @override
   void initState() {
     solvedStats = fetchSolvedProblemStats();
@@ -101,73 +88,82 @@ class _SolvedProblemsState extends State<SolvedProblems> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-            flex: 2,
-            child: Container(
-                child: SfCircularChart(
-              tooltipBehavior: TooltipBehavior(enable: true),
-              series: <CircularSeries<ChartData, String>>[
-                DoughnutSeries<ChartData, String>(
-                  startAngle: 0,
-                  endAngle: 360,
-                  innerRadius: "90%",
-                  radius: "80%",
-                  dataSource: [
-                    ChartData('CHN', 10, Color.fromARGB(255, 92, 86, 85)),
-                    ChartData('GER', 90, Color.fromARGB(238, 123, 227, 58)),
-                  ],
-                  pointColorMapper: (ChartData data, _) => data.color,
-                  xValueMapper: (ChartData data, _) => data.x,
-                  yValueMapper: (ChartData data, _) => data.y,
-                  name: 'Gold',
-                ),
-              ],
-            ))),
-        Expanded(
-            flex: 3,
-            child: FutureBuilder<dynamic>(
-                future: solvedStats,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    // String activeDates = snapshot.data;
-                    List<dynamic> allQuestionCount =
-                        snapshot.data["data"]["allQuestionsCount"];
-                    List<dynamic> problemsSolvedBeatsStats =
-                        snapshot.data["data"]["matchedUser"]
-                            ["problemsSolvedBeatsStats"];
-                    List<dynamic> submitStats = snapshot.data["data"]
-                        ["matchedUser"]["submitStatsGlobal"]["acSubmissionNum"];
+    return FutureBuilder<dynamic>(
+        future: solvedStats,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<dynamic> allQuestionCount =
+                snapshot.data["data"]["allQuestionsCount"];
+            List<dynamic> problemsSolvedBeatsStats = snapshot.data["data"]
+                ["matchedUser"]["problemsSolvedBeatsStats"];
+            List<dynamic> submitStats = snapshot.data["data"]["matchedUser"]
+                ["submitStatsGlobal"]["acSubmissionNum"];
 
-                    Map<String, int> totalCountMap =
-                        getSubmissionCountMap(allQuestionCount);
-                    Map<String, int> submissionsCountMap =
-                        getSubmissionCount(submitStats);
-                    Map<String, double> beatsPercenttMap =
-                        getBeatsPercent(problemsSolvedBeatsStats);
+            Map<String, int> totalCountMap =
+                getSubmissionCountMap(allQuestionCount);
+            Map<String, int> submissionsCountMap =
+                getSubmissionCountMap(submitStats);
+            Map<String, double> beatsPercenttMap =
+                getBeatsPercent(problemsSolvedBeatsStats);
 
-                    double easyPercentCompletion =
-                        (submissionsCountMap["Easy"]! /
-                                totalCountMap["Easy"]!) *
-                            100;
-                    double mediumPercentCompletion =
-                        (submissionsCountMap["Medium"]! /
-                                totalCountMap["Medium"]!) *
-                            100;
-                    double hardPercentCompletion =
-                        (submissionsCountMap["Hard"]! /
-                                totalCountMap["Hard"]!) *
-                            100;
+            double easyPercentCompletion =
+                (submissionsCountMap["Easy"]! / totalCountMap["Easy"]!) * 100;
+            double mediumPercentCompletion =
+                (submissionsCountMap["Medium"]! / totalCountMap["Medium"]!) *
+                    100;
+            double hardPercentCompletion =
+                (submissionsCountMap["Hard"]! / totalCountMap["Hard"]!) * 100;
+            double overallCompletionPercent =
+                (submissionsCountMap["All"]! / totalCountMap["All"]!) * 100;
 
-                    return Wrap(
+            return Row(
+              children: [
+                Expanded(
+                    flex: 2,
+                    child: Container(
+                        child: SfCircularChart(
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      annotations: <CircularChartAnnotation>[
+                        CircularChartAnnotation(
+                            widget: Container(
+                                child: Text(
+                                    overallCompletionPercent
+                                            .toStringAsFixed(2) +
+                                        "%",
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(0, 0, 0, 0.5),
+                                        fontSize: 25))))
+                      ],
+                      //MAKE A component TODO
+                      series: <CircularSeries<ChartData, String>>[
+                        DoughnutSeries<ChartData, String>(
+                          startAngle: 0,
+                          endAngle: 360,
+                          innerRadius: "90%",
+                          radius: "80%",
+                          dataSource: [
+                            ChartData(
+                                'Done', overallCompletionPercent, Colors.green),
+                            ChartData('NotDone', 100 - overallCompletionPercent,
+                                Colors.blueGrey.shade100),
+                          ],
+                          pointColorMapper: (ChartData data, _) => data.color,
+                          xValueMapper: (ChartData data, _) => data.x,
+                          yValueMapper: (ChartData data, _) => data.y,
+                          name: 'Gold',
+                        ),
+                      ],
+                    ))),
+                Expanded(
+                    flex: 3,
+                    child: Wrap(
                       direction: Axis.horizontal,
                       spacing: 80,
                       runSpacing: 20,
                       children: [
                         LinearRange(
                           startRangeColor: Colors.greenAccent,
-                          endRangeColor: Colors.grey,
+                          endRangeColor: Colors.blueGrey.shade100,
                           rangeFirst: [0, easyPercentCompletion],
                           rangeSecond: [easyPercentCompletion, 100],
                           type: "Easy",
@@ -178,7 +174,7 @@ class _SolvedProblemsState extends State<SolvedProblems> {
 
                         LinearRange(
                           startRangeColor: Colors.yellowAccent,
-                          endRangeColor: Colors.grey,
+                          endRangeColor: Colors.blueGrey.shade100,
                           rangeFirst: [0, mediumPercentCompletion],
                           rangeSecond: [mediumPercentCompletion, 100],
                           type: "Medium",
@@ -188,7 +184,7 @@ class _SolvedProblemsState extends State<SolvedProblems> {
                         ),
                         LinearRange(
                           startRangeColor: Colors.redAccent,
-                          endRangeColor: Colors.grey,
+                          endRangeColor: Colors.blueGrey.shade100,
                           rangeFirst: [0, hardPercentCompletion],
                           rangeSecond: [hardPercentCompletion, 100],
                           type: "Hard",
@@ -198,14 +194,15 @@ class _SolvedProblemsState extends State<SolvedProblems> {
                         ),
                         // )
                       ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-                  return const CircularProgressIndicator();
-                }))
-      ],
-    );
+                    ))
+              ],
+            );
+            ;
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const CircularProgressIndicator();
+        });
   }
 }
 

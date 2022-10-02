@@ -5,8 +5,8 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter/material.dart';
 
 class LinearRange extends StatelessWidget {
-  final MaterialAccentColor? startRangeColor;
-  final MaterialColor? endRangeColor;
+  final Color? startRangeColor;
+  final Color? endRangeColor;
   final List<double>? rangeFirst;
   final List<double>? rangeSecond;
   final String? completionPercent;

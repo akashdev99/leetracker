@@ -5,26 +5,6 @@ import 'package:leetrack/views/SubmissionPage.dart';
 
 import 'package:http/http.dart' as http;
 
-class Album {
-  final int userId;
-  final int id;
-  final String title;
-
-  const Album({
-    required this.userId,
-    required this.id,
-    required this.title,
-  });
-
-  factory Album.fromJson(Map<String, dynamic> json) {
-    return Album(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-    );
-  }
-}
-
 Future<dynamic> fetchActiveDates() async {
   Map<String, String> jsonMap = {
     "query":
@@ -78,12 +58,12 @@ class CodeActivity extends StatefulWidget {
 }
 
 class _CodeActivityState extends State<CodeActivity> {
-  late Future<dynamic> futureAlbum;
+  late Future<dynamic> futureCalendarHeat;
 
   @override
   void initState() {
     super.initState();
-    futureAlbum = fetchActiveDates();
+    futureCalendarHeat = fetchActiveDates();
   }
 
   @override
@@ -91,7 +71,7 @@ class _CodeActivityState extends State<CodeActivity> {
     return Column(children: [
       Center(
           child: FutureBuilder<dynamic>(
-              future: futureAlbum,
+              future: futureCalendarHeat,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   String activeDates = snapshot.data["data"]["matchedUser"]

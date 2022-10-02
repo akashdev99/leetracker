@@ -1,9 +1,7 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
 import 'package:leetrack/Components/ScaffoldBase.dart';
+import 'package:leetrack/widgets/SubmissionList.dart';
 
 class SubmissionPage extends StatelessWidget {
   const SubmissionPage({super.key});
@@ -14,6 +12,7 @@ class SubmissionPage extends StatelessWidget {
         title: "Submissions",
         childPadding: 8.0,
         child: <Widget>[
+          const SubmissionList(),
           Center(
             child: ElevatedButton(
               onPressed: () {

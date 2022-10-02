@@ -6,13 +6,18 @@ import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 class WidgetContainer extends StatelessWidget {
   final Widget? child;
   final String? Title;
-  const WidgetContainer({Key? key, @required this.child, @required this.Title})
+  final double? Height;
+  const WidgetContainer(
+      {Key? key,
+      @required this.child,
+      @required this.Title,
+      @required this.Height})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 250.0,
+        height: Height,
         padding: const EdgeInsets.all(8.0),
         margin: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(

@@ -87,41 +87,46 @@ class _CodeActivityState extends State<CodeActivity> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-            child: FutureBuilder<dynamic>(
-                future: futureAlbum,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    String activeDates = snapshot.data["data"]["matchedUser"]
-                        ["userCalendar"]["submissionCalendar"];
+    return Column(children: [
+      Center(
+          child: FutureBuilder<dynamic>(
+              future: futureAlbum,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  String activeDates = snapshot.data["data"]["matchedUser"]
+                      ["userCalendar"]["submissionCalendar"];
 
-                    Map<DateTime, int> codeActivityMap =
-                        parseDates(activeDates);
+                  Map<DateTime, int> codeActivityMap = parseDates(activeDates);
 
-                    return HeatMap(
-                      datasets: codeActivityMap,
-                      colorMode: ColorMode.opacity,
-                      showText: false,
-                      scrollable: true,
-                      colorsets: {
-                        // 1: Colors.red,
-                        // 3: Colors.orange,
-                        // 5: Colors.yellow,
-                        7: Colors.green,
-                        // 9: Colors.blue,
-                        // 11: Colors.indigo,
-                        // 13: Colors.purple,
-                      },
-                      onClick: (value) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(value.toString())));
-                      },
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-                  return const CircularProgressIndicator();
-                })));
+                  return HeatMap(
+                    datasets: codeActivityMap,
+                    colorMode: ColorMode.opacity,
+                    showText: false,
+                    scrollable: true,
+                    colorsets: const {
+                      7: Colors.green,
+                    },
+                    onClick: (value) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(value.toString())));
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return const CircularProgressIndicator();
+              })),
+      Center(
+        child: ElevatedButton(
+          child: const Text('More Info'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Text("")),
+            );
+          },
+        ),
+      ),
+    ]);
   }
 }

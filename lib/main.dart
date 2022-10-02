@@ -56,16 +56,19 @@ class _MyHomePageState extends State<MyHomePage> {
               WidgetContainer(
                 Title: "Code Activity",
                 child: CodeActivity(),
+                Height: 300.0,
               ),
               // const SolvedProblems(),
               WidgetContainer(
                 Title: "Solved Problems",
                 child: SolvedProblems(),
+                Height: 250.0,
               ),
               WidgetContainer(
                 Title: "Solution By Language",
                 //TODOAdd Histogram grams
                 child: Text("test"),
+                Height: 250.0,
               )
             ])));
   }

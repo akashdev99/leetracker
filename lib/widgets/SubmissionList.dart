@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:leetrack/Components/WidgetContainer.dart';
 
 Future<dynamic> fetchSubmissionList() async {
   Map<String, String> jsonMap = {
@@ -52,8 +53,24 @@ class _SubmissionListState extends State<SubmissionList> {
             future: futureSubmissionList,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                print(snapshot.data);
-                return Text("Get em");
+                List<dynamic> submissionList =
+                    snapshot.data["data"]["recentAcSubmissionList"];
+
+                return ListView.builder(
+                    itemCount: submissionList.length,
+                    itemBuilder: (context, index) {
+                      final item = submissionList[index];
+                      DateTime dateTimeObj =
+                          DateTime.fromMillisecondsSinceEpoch(
+                              int.parse(item["timestamp"]) * 1000);
+
+                      String timestamp = dateTimeObj.toString();
+                      return ListTile(
+                          title: Text(
+                            item["title"],
+                          ),
+                          subtitle: Text("Completed on :" + timestamp));
+                    });
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }

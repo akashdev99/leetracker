@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
 import 'package:leetrack/widgets/CodeActivity.dart';
-import 'package:leetrack/widgets/WidgetContainer.dart';
+import 'package:leetrack/Components/WidgetContainer.dart';
 import 'package:leetrack/widgets/SolvedProblems.dart';
 import 'package:leetrack/Components/ScaffoldBase.dart';
 

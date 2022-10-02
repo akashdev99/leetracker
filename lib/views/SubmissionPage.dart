@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:leetrack/Components/WidgetContainer.dart';
 import 'package:leetrack/Components/ScaffoldBase.dart';
 import 'package:leetrack/widgets/SubmissionList.dart';
 
@@ -8,19 +8,15 @@ class SubmissionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldBase(
+    return const ScaffoldBase(
         title: "Submissions",
         childPadding: 8.0,
         child: <Widget>[
-          const SubmissionList(),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Go back!'),
-            ),
-          )
+          WidgetContainer(
+            Title: "Code Activity",
+            child: SubmissionList(),
+            Height: 650.0,
+          ),
         ]);
   }
 }

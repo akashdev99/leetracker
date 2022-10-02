@@ -63,7 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: SolvedProblems(),
               ),
               WidgetContainer(
-                Title: "Code Activity",
+                Title: "Solution By Language",
+                //TODOAdd Histogram grams
                 child: Text("test"),
               )
             ])));

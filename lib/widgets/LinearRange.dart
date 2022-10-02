@@ -31,7 +31,7 @@ class LinearRange extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(type! + ": " + completionPercent! + "%"),
-            Text("Beats :" + beatsPercent.toString())
+            Text("Beats :" + beatsPercent.toString() + " %")
           ],
         ),
         SfLinearGauge(

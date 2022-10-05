@@ -54,7 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: CodeActivity(),
             Height: 300.0,
           ),
-          // const SolvedProblems(),
           WidgetContainer(
             Title: "Solved Problems",
             child: SolvedProblems(),

@@ -13,9 +13,9 @@ class SubmissionPage extends StatelessWidget {
         childPadding: 8.0,
         child: <Widget>[
           WidgetContainer(
-            Title: "Code Activity",
+            Title: "Last 10 Solved",
             child: SubmissionList(),
-            Height: 650.0,
+            Height: 750.0,
           ),
         ]);
   }

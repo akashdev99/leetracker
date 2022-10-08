@@ -5,6 +5,7 @@ import 'package:leetrack/widgets/CodeActivity.dart';
 import 'package:leetrack/Components/WidgetContainer.dart';
 import 'package:leetrack/widgets/SolvedProblems.dart';
 import 'package:leetrack/Components/ScaffoldBase.dart';
+import 'package:leetrack/views/SubmissionPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,26 +46,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldBase(
-        title: widget.title,
-        childPadding: 8,
-        child: const <Widget>[
-          WidgetContainer(
+    return ScaffoldBase(title: widget.title, childPadding: 8, child: <Widget>[
+      GestureDetector(
+          //CHECK IF DOUBLE TAPOR LONG TAP
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SubmissionPage()),
+            );
+          },
+          child: const WidgetContainer(
             Title: "Code Activity",
             child: CodeActivity(),
-            Height: 300.0,
-          ),
-          WidgetContainer(
-            Title: "Solved Problems",
-            child: SolvedProblems(),
             Height: 250.0,
-          ),
-          WidgetContainer(
-            Title: "Solution By Language",
-            //TODOAdd Histogram grams
-            child: Text("test"),
-            Height: 250.0,
-          )
-        ]);
+          )),
+      const WidgetContainer(
+        Title: "Solved Problems",
+        child: SolvedProblems(),
+        Height: 250.0,
+      ),
+      const WidgetContainer(
+        Title: "Solution By Language",
+        //TODOAdd Histogram grams
+        child: Text("test"),
+        Height: 250.0,
+      )
+    ]);
   }
 }

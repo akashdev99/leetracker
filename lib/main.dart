@@ -36,14 +36,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return ScaffoldBase(title: widget.title, childPadding: 8, child: <Widget>[
@@ -74,3 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
     ]);
   }
 }
+
+
+// https://www.material.io/components/bottom-navigation/flutter#bottom-navigation-example -> Bottom Nav

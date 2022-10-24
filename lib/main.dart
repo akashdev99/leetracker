@@ -7,22 +7,45 @@ import 'package:leetrack/widgets/SolvedProblems.dart';
 import 'package:leetrack/Components/ScaffoldBase.dart';
 import 'package:leetrack/views/SubmissionPage.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final savedThemeMode = await AdaptiveTheme.getThemeMode();
+  print(savedThemeMode);
+  runApp(ProviderScope(child: MyApp(savedThemeMode: savedThemeMode)));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AdaptiveThemeMode? savedThemeMode;
+  // ignore: use_key_in_widget_constructors
+
+  const MyApp({this.savedThemeMode});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'LeetTracker',
-      theme: ThemeData(
+    return AdaptiveTheme(
+      light: ThemeData(
+        backgroundColor: Colors.grey.shade200,
+        // brightness: Brightness.light,
         primarySwatch: Colors.blue,
+        cardColor: Colors.white,
+        // accentColor: Colors.amber,
+        // primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'LeetTracker'),
+      dark: ThemeData(
+          primarySwatch: Colors.red,
+          backgroundColor: Colors.grey[800],
+          cardColor: Colors.grey[700]),
+      initial: AdaptiveThemeMode.light,
+      builder: (theme, darkTheme) => MaterialApp(
+        title: 'Leet Tracker',
+        theme: theme,
+        darkTheme: darkTheme,
+        home: const MyHomePage(title: 'LeetTracker'),
+      ),
     );
   }
 }
@@ -62,7 +85,29 @@ class _MyHomePageState extends State<MyHomePage> {
         //TODOAdd Histogram grams
         child: Text("test"),
         Height: 250.0,
-      )
+      ),
+
+      //TODO: remove - test code
+      // https://blog.logrocket.com/theming-your-app-flutter-guide/
+      Center(
+        child: RawMaterialButton(
+          child: const Text(
+            'Switch Modes',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          onPressed: () {
+            AdaptiveTheme.of(context).toggleThemeMode();
+          },
+          fillColor: Colors.green,
+          padding: const EdgeInsets.all(16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+      ),
     ]);
   }
 }

@@ -17,7 +17,7 @@ class ScaffoldBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           title: Text(title!),
         ),

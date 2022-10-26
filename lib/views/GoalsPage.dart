@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+import 'package:leetrack/views/GoalForm.dart';
+import 'package:leetrack/Components/WidgetContainer.dart';
+import 'package:leetrack/Components/Goal.dart';
+
 class GoalsPage extends StatefulWidget {
   const GoalsPage({super.key});
 
@@ -12,7 +16,8 @@ class GoalsPage extends StatefulWidget {
 class _GoalsPageState extends State<GoalsPage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      padding: const EdgeInsets.all(8),
       children: [
         SizedBox(height: 20),
         Align(
@@ -21,7 +26,12 @@ class _GoalsPageState extends State<GoalsPage> {
             Container(
                 margin: const EdgeInsets.only(right: 10.0),
                 child: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const GoalForm()),
+                    );
+                  },
                   icon: const Icon(
                     Icons.add,
                     size: 35,
@@ -36,7 +46,23 @@ class _GoalsPageState extends State<GoalsPage> {
                   )),
                 )),
           ]),
-        )
+        ),
+        SizedBox(height: 20),
+        const Goal(
+          Title: "Dynamic programming",
+          DueDate: "12th October",
+          Health: true,
+        ),
+        const Goal(
+          Title: "DS Learn",
+          DueDate: "12th October",
+          Health: false,
+        ),
+        const Goal(
+          Title: "String programming",
+          DueDate: "12th October",
+          Health: true,
+        ),
       ],
     );
   }

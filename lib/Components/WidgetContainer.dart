@@ -20,11 +20,11 @@ class WidgetContainer extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: Container(
             height: Height,
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
             margin: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(20.0),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

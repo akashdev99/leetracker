@@ -84,7 +84,7 @@ class _CodeActivityState extends State<CodeActivity> {
                 showText: false,
                 scrollable: true,
                 colorsets: const {
-                  7: Colors.green,
+                  7: Colors.black,
                 },
                 onClick: (value) {
                   ScaffoldMessenger.of(context)

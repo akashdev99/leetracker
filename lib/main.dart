@@ -72,6 +72,11 @@ class MyApp extends StatelessWidget {
             fontSize: 20,
             color: Colors.black,
           ),
+          bodyText1: TextStyle(
+            fontWeight: FontWeight.w300,
+            fontSize: 10,
+            color: Colors.black,
+          ),
         ),
       ),
       dark: ThemeData(

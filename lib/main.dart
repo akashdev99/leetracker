@@ -49,24 +49,30 @@ class MyApp extends StatelessWidget {
     }
 
     MaterialColor primaryLightSwatchColor =
-        createMaterialColor(Color(0xFFEEEEEE));
+        createMaterialColor(Color(0xDD000000));
 
     return AdaptiveTheme(
       light: ThemeData(
         backgroundColor: Colors.grey.shade200,
-        primarySwatch: Colors.blue,
+        primarySwatch: primaryLightSwatchColor,
         cardColor: Colors.white,
         brightness: Brightness.light,
 
         //TextTheme
         textTheme: const TextTheme(
-            headline1: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),
-            headline2: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 18,
-              color: Colors.black,
-            )),
+          headline1: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),
+          headline2: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 18,
+            color: Colors.black,
+          ),
+          labelMedium: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
+            color: Colors.black,
+          ),
+        ),
       ),
       dark: ThemeData(
           backgroundColor: Colors.grey[800],
@@ -76,15 +82,19 @@ class MyApp extends StatelessWidget {
 
           //TextTheme
           textTheme: const TextTheme(
-              headline1: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  color: Colors.white),
-              headline2: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 18,
-                color: Colors.white,
-              ))),
+            headline1: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),
+            headline2: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+              color: Colors.white,
+            ),
+            labelMedium: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 10,
+              color: Colors.white,
+            ),
+          )),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         title: 'Leet Tracker',

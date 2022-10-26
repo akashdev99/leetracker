@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 
-class ScaffoldBase extends StatelessWidget {
+import 'package:leetrack/views/StatsPage.dart';
+
+class ScaffoldBase extends StatefulWidget {
   final String? title;
   final List<Widget>? child;
   final double? childPadding;
@@ -14,30 +15,55 @@ class ScaffoldBase extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<ScaffoldBase> createState() => _ScaffoldBaseState();
+}
+
+class _ScaffoldBaseState extends State<ScaffoldBase> {
+  @override
+  int _selectedIndex = 0;
+
+  static List<Widget> _pages = <Widget>[
+    StatsPage(),
+    Icon(
+      Icons.camera,
+      size: 150,
+    ),
+    Icon(
+      Icons.chat,
+      size: 150,
+    ),
+  ];
+
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          title: Text(title!),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.query_stats),
-              label: 'Stats',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.checklist),
-              label: 'Goals',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Setting',
-            ),
-          ],
-        ),
-        body: ListView(
-            padding: EdgeInsets.all(childPadding!),
-            children: <Widget>[...child!]));
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        title: Text(widget.title!),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.query_stats),
+            label: 'Stats',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.checklist),
+            label: 'Goals',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Setting',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: (value) {
+          // Respond to item press.
+          setState(() => _selectedIndex = value);
+        },
+      ),
+      body: Center(
+        child: _pages.elementAt(_selectedIndex), //New
+      ),
+    );
   }
 }

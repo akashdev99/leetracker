@@ -10,18 +10,18 @@ class SubmissionPage extends StatelessWidget {
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          title: const Text("Submission list"),
-        ),
-        body: ListView(padding: EdgeInsets.all(8),
-
-            // title: "Submissions",
-            // childPadding: 8.0,
-            children: const <Widget>[
-              WidgetContainer(
-                Title: "Last 10 Solved",
-                Height: 750.0,
-                child: SubmissionList(),
-              ),
-            ]));
+            title: Text("Submission list",
+                style: Theme.of(context).textTheme.headline1),
+            centerTitle: false,
+            backgroundColor: Theme.of(context).backgroundColor,
+            foregroundColor: Colors.black,
+            elevation: 0),
+        body: ListView(padding: EdgeInsets.all(8), children: const <Widget>[
+          WidgetContainer(
+            Title: "Last 10 Solved",
+            Height: 750.0,
+            child: SubmissionList(),
+          ),
+        ]));
   }
 }

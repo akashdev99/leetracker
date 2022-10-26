@@ -5,10 +5,8 @@ import 'package:leetrack/views/SettingsPage.dart';
 import 'package:leetrack/views/GoalsPage.dart';
 
 class ScaffoldBase extends StatefulWidget {
-  final String? title;
   const ScaffoldBase({
     Key? key,
-    @required this.title,
   }) : super(key: key);
 
   @override
@@ -18,22 +16,21 @@ class ScaffoldBase extends StatefulWidget {
 class _ScaffoldBaseState extends State<ScaffoldBase> {
   @override
   int _selectedIndex = 0;
+  String _title = "Statistics";
 
   static List<Widget> _pages = <Widget>[
     StatsPage(),
-    Icon(
-      Icons.checklist,
-      size: 150,
-    ),
+    GoalsPage(),
     SettingsPage(),
   ];
+
+  static List<String> _pageTitle = <String>["Statistics", "Goals", "Settings"];
 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-          title:
-              Text(widget.title!, style: Theme.of(context).textTheme.headline1),
+          title: Text(_title, style: Theme.of(context).textTheme.headline1),
           centerTitle: false,
           backgroundColor: Theme.of(context).backgroundColor,
           foregroundColor: Colors.black,
@@ -56,7 +53,7 @@ class _ScaffoldBaseState extends State<ScaffoldBase> {
         currentIndex: _selectedIndex,
         onTap: (value) {
           // Respond to item press.
-          setState(() => _selectedIndex = value);
+          setState(() => {_selectedIndex = value, _title = _pageTitle[value]});
         },
       ),
       body: Center(

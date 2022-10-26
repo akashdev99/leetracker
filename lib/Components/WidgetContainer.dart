@@ -27,12 +27,14 @@ class WidgetContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   Title!,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.headline2,
                   textAlign: TextAlign.left,
                 ),
+                SizedBox(height: 10),
                 Expanded(child: child!),
               ],
             )));

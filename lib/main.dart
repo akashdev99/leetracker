@@ -26,19 +26,64 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    //Move to utility
+    MaterialColor createMaterialColor(Color color) {
+      List strengths = <double>[.05];
+      Map<int, Color> swatch = {};
+      final int r = color.red, g = color.green, b = color.blue;
+
+      for (int i = 1; i < 10; i++) {
+        strengths.add(0.1 * i);
+      }
+      for (var strength in strengths) {
+        final double ds = 0.5 - strength;
+        swatch[(strength * 1000).round()] = Color.fromRGBO(
+          r + ((ds < 0 ? r : (255 - r)) * ds).round(),
+          g + ((ds < 0 ? g : (255 - g)) * ds).round(),
+          b + ((ds < 0 ? b : (255 - b)) * ds).round(),
+          1,
+        );
+      }
+      ;
+      return MaterialColor(color.value, swatch);
+    }
+
+    MaterialColor primaryLightSwatchColor =
+        createMaterialColor(Color(0xFFEEEEEE));
+
     return AdaptiveTheme(
       light: ThemeData(
         backgroundColor: Colors.grey.shade200,
-        // brightness: Brightness.light,
         primarySwatch: Colors.blue,
         cardColor: Colors.white,
-        // accentColor: Colors.amber,
-        // primarySwatch: Colors.blue,
+        brightness: Brightness.light,
+
+        //TextTheme
+        textTheme: const TextTheme(
+            headline1: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),
+            headline2: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+              color: Colors.black,
+            )),
       ),
       dark: ThemeData(
-          primarySwatch: Colors.red,
           backgroundColor: Colors.grey[800],
-          cardColor: Colors.grey[700]),
+          primarySwatch: Colors.red,
+          cardColor: Colors.grey[700],
+          brightness: Brightness.dark,
+
+          //TextTheme
+          textTheme: const TextTheme(
+              headline1: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                  color: Colors.white),
+              headline2: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                  color: Colors.white))),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         title: 'Leet Tracker',
@@ -61,54 +106,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return ScaffoldBase(title: widget.title, childPadding: 8, child: <Widget>[
-      GestureDetector(
-          //CHECK IF DOUBLE TAPOR LONG TAP
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SubmissionPage()),
-            );
-          },
-          child: const WidgetContainer(
-            Title: "Code Activity",
-            child: CodeActivity(),
-            Height: 250.0,
-          )),
-      const WidgetContainer(
-        Title: "Solved Problems",
-        child: SolvedProblems(),
-        Height: 250.0,
-      ),
-      const WidgetContainer(
-        Title: "Solution By Language",
-        //TODOAdd Histogram grams
-        child: Text("test"),
-        Height: 250.0,
-      ),
-
-      //TODO: remove - test code
-      // https://blog.logrocket.com/theming-your-app-flutter-guide/
-      Center(
-        child: RawMaterialButton(
-          child: const Text(
-            'Switch Modes',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          onPressed: () {
-            AdaptiveTheme.of(context).toggleThemeMode();
-          },
-          fillColor: Colors.green,
-          padding: const EdgeInsets.all(16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-      ),
-    ]);
+    return ScaffoldBase(title: widget.title);
   }
 }
 

@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:leetrack/views/StatsPage.dart';
+import 'package:leetrack/views/SettingsPage.dart';
+import 'package:leetrack/views/GoalsPage.dart';
 
 class ScaffoldBase extends StatefulWidget {
   final String? title;
-  final List<Widget>? child;
-  final double? childPadding;
-  const ScaffoldBase(
-      {Key? key,
-      @required this.title,
-      @required this.child,
-      //make default 8
-      @required this.childPadding})
-      : super(key: key);
+  const ScaffoldBase({
+    Key? key,
+    @required this.title,
+  }) : super(key: key);
 
   @override
   State<ScaffoldBase> createState() => _ScaffoldBaseState();
@@ -25,21 +22,22 @@ class _ScaffoldBaseState extends State<ScaffoldBase> {
   static List<Widget> _pages = <Widget>[
     StatsPage(),
     Icon(
-      Icons.camera,
+      Icons.checklist,
       size: 150,
     ),
-    Icon(
-      Icons.chat,
-      size: 150,
-    ),
+    SettingsPage(),
   ];
 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text(widget.title!),
-      ),
+          title:
+              Text(widget.title!, style: Theme.of(context).textTheme.headline1),
+          centerTitle: false,
+          backgroundColor: Theme.of(context).backgroundColor,
+          foregroundColor: Colors.black,
+          elevation: 0),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

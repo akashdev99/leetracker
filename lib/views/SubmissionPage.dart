@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:leetrack/Components/WidgetContainer.dart';
-import 'package:leetrack/Components/ScaffoldBase.dart';
 import 'package:leetrack/widgets/SubmissionList.dart';
 
 class SubmissionPage extends StatelessWidget {
@@ -8,15 +7,21 @@ class SubmissionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ScaffoldBase(
-        title: "Submissions",
-        childPadding: 8.0,
-        child: <Widget>[
-          WidgetContainer(
-            Title: "Last 10 Solved",
-            child: SubmissionList(),
-            Height: 750.0,
-          ),
-        ]);
+    return Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        appBar: AppBar(
+          title: const Text("Submission list"),
+        ),
+        body: ListView(padding: EdgeInsets.all(8),
+
+            // title: "Submissions",
+            // childPadding: 8.0,
+            children: const <Widget>[
+              WidgetContainer(
+                Title: "Last 10 Solved",
+                Height: 750.0,
+                child: SubmissionList(),
+              ),
+            ]));
   }
 }

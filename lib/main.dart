@@ -81,9 +81,10 @@ class MyApp extends StatelessWidget {
                   fontSize: 30,
                   color: Colors.white),
               headline2: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20,
-                  color: Colors.white))),
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+                color: Colors.white,
+              ))),
       initial: AdaptiveThemeMode.light,
       builder: (theme, darkTheme) => MaterialApp(
         title: 'Leet Tracker',

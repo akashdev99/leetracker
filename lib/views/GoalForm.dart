@@ -14,8 +14,23 @@ class GoalForm extends StatefulWidget {
 class _GoalFormState extends State<GoalForm> {
   final _formKey = GlobalKey<FormState>();
   int? lastTapped;
-  printIntAsDay(int day) {
-    print('Received integer: $day. Corresponds to day: ${day}');
+  String username = '';
+  DateTime dueDate = DateTime.now();
+  List<bool> weekdays = const [
+    true, // Sunday
+    false, // Monday
+    false, // Tuesday
+    false, // Wednesday
+    false, // Thursday
+    false, // Friday
+    true, // Saturday
+  ];
+
+  List<bool> toggleWeekday(int day) {
+    var index = day % 7;
+    List<bool> weekdayCopy = [...weekdays];
+    weekdayCopy[index] = !weekdayCopy[index];
+    return weekdayCopy;
   }
 
   @override
@@ -45,47 +60,36 @@ class _GoalFormState extends State<GoalForm> {
                         },
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: "Task Name")),
+                            hintText: "Task Name"),
+                        onChanged: (value) => setState(() => username = value)),
                     const SizedBox(
                       height: 50,
                     ),
                     DateTimeFormField(
-                      decoration: const InputDecoration(
-                        hintStyle: TextStyle(color: Colors.black45),
-                        errorStyle: TextStyle(color: Colors.redAccent),
-                        border: OutlineInputBorder(),
-                        suffixIcon: Icon(Icons.event_note),
-                        labelText: 'Only time',
-                      ),
-                      mode: DateTimeFieldPickerMode.date,
-                      autovalidateMode: AutovalidateMode.always,
-                      validator: (e) => (e?.day ?? 0) == 1
-                          ? 'Please not the first day'
-                          : null,
-                      onDateSelected: (DateTime value) {
-                        print(value);
-                      },
-                    ),
+                        decoration: const InputDecoration(
+                          hintStyle: TextStyle(color: Colors.black45),
+                          errorStyle: TextStyle(color: Colors.redAccent),
+                          border: OutlineInputBorder(),
+                          suffixIcon: Icon(Icons.event_note),
+                          labelText: 'Only time',
+                        ),
+                        mode: DateTimeFieldPickerMode.date,
+                        autovalidateMode: AutovalidateMode.always,
+                        validator: (e) =>
+                            e == null ? 'Please Choose date' : null,
+                        onDateSelected: (DateTime value) =>
+                            setState(() => dueDate = value)),
                     const SizedBox(
                       height: 50,
                     ),
                     WeekdaySelector(
                       // We display the last tapped value in the example app
                       onChanged: (v) {
-                        printIntAsDay(v);
-                        setState(() => lastTapped = v);
+                        setState(() => weekdays = toggleWeekday(v));
                       },
-                      values: const [
-                        true, // Sunday
-                        false, // Monday
-                        false, // Tuesday
-                        false, // Wednesday
-                        false, // Thursday
-                        false, // Friday
-                        true, // Saturday
-                      ],
+                      values: weekdays,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     Align(
@@ -94,6 +98,9 @@ class _GoalFormState extends State<GoalForm> {
                         onPressed: () {
                           // Validate returns true if the form is valid, or false otherwise.
                           if (_formKey.currentState!.validate()) {
+                            print(username);
+                            print(dueDate);
+                            print(weekdays);
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
                             ScaffoldMessenger.of(context).showSnackBar(

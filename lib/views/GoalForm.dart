@@ -4,6 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:date_field/date_field.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
+import 'package:leetrack/Database/database.dart';
+
 class GoalForm extends StatefulWidget {
   const GoalForm({super.key});
 
@@ -95,12 +97,24 @@ class _GoalFormState extends State<GoalForm> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           // Validate returns true if the form is valid, or false otherwise.
                           if (_formKey.currentState!.validate()) {
                             print(username);
                             print(dueDate);
                             print(weekdays);
+
+                            DBConnection dbConnector =
+                                DBConnection.getInstance();
+                            var mongoConn = await dbConnector.getConnection();
+                            var userCollection = mongoConn.collection("goals");
+                            var goals = {
+                              "username": username,
+                              "dueDate": dueDate,
+                              "weekdays": weekdays
+                            };
+                            await userCollection.insertAll([goals]);
+
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
                             ScaffoldMessenger.of(context).showSnackBar(

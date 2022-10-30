@@ -10,10 +10,32 @@ import 'package:leetrack/views/SubmissionPage.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:leetrack/Database/database.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final savedThemeMode = await AdaptiveTheme.getThemeMode();
-  print(savedThemeMode);
+  DBConnection dbConnector = DBConnection.getInstance();
+  var mongoConn = await dbConnector.getConnection();
+  // print("haha");
+  // print(mongoConn);
+  // var userCollection = mongoConn.collection("goals");
+  // print("here");
+  // var goals = {"name": "Dynamic", "due": "12th"};
+  // await userCollection.insertAll([goals]);
+  // print("there");
+  // var goalData = await userCollection.find({
+  //   "name": "Dynamic",
+  // }).forEach((v) => print(v));
+  // await userCollection.remove({
+  //   "name": "Dynamic",
+  // });
+  // dbConnector.closeConnection();
+
+  // // goalData.then((data) => print(data));
+  // print(goalData);
+
+  // print("where");
   runApp(ProviderScope(child: MyApp(savedThemeMode: savedThemeMode)));
 }
 

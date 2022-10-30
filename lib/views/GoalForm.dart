@@ -107,7 +107,8 @@ class _GoalFormState extends State<GoalForm> {
                             var goals = {
                               "title": username,
                               "dueDate": dueDate,
-                              "weekdays": weekdays
+                              "weekdays": weekdays,
+                              "streak": true,
                             };
 
                             await userCollection.insertAll([goals]);
@@ -120,6 +121,30 @@ class _GoalFormState extends State<GoalForm> {
                           }
                         },
                         child: const Text('Submit'),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          // Validate returns true if the form is valid, or false otherwise.
+                          if (_formKey.currentState!.validate()) {
+                            DBConnection dbConnector =
+                                DBConnection.getInstance();
+                            var mongoConn = await dbConnector.getConnection();
+                            var userCollection = mongoConn.collection("goals");
+                            var goals = {
+                              "title": username,
+                              "dueDate": dueDate,
+                              "weekdays": weekdays,
+                              "streak": true,
+                            };
+
+                            await userCollection
+                                .remove({"title": "String Base"});
+                          }
+                        },
+                        child: const Text('Delete'),
                       ),
                     ),
                   ],

@@ -47,7 +47,7 @@ class _GoalsPageState extends State<GoalsPage> {
                 Title: goal["title"],
                 DueDate: goal["dueDate"],
                 Weekdays: weekdays,
-                Health: true,
+                Health: goal["streak"],
               ));
             });
 

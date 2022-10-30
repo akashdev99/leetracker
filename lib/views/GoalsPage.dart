@@ -45,7 +45,7 @@ class _GoalsPageState extends State<GoalsPage> {
                   .toList();
               goalList.add(Goal(
                 Title: goal["title"],
-                DueDate: goal["dueDate"].toString(),
+                DueDate: goal["dueDate"],
                 Weekdays: weekdays,
                 Health: true,
               ));

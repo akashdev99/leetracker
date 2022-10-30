@@ -5,11 +5,12 @@ import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
 import 'package:leetrack/Components/WidgetContainer.dart';
 import 'package:weekday_selector/weekday_selector.dart';
+import 'package:intl/intl.dart';
 
 class Goal extends StatelessWidget {
   final String? Title;
   final bool? Health;
-  final String? DueDate;
+  final DateTime? DueDate;
   final List<bool>? Weekdays;
   //[1,1,0,0,0,1,1] = [SUN , MON , TUE , WED , THU ,  FRI , SAT ]
 
@@ -47,7 +48,8 @@ class Goal extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(DueDate!, style: Theme.of(context).textTheme.bodyText1),
+                Text(DateFormat('yyyy-MM-dd').format(DueDate!),
+                    style: Theme.of(context).textTheme.bodyText1),
                 const SizedBox(height: 50),
                 Row(
                   children: getWeekdaysActive(Weekdays!, context),

@@ -109,10 +109,11 @@ class _GoalFormState extends State<GoalForm> {
                             var mongoConn = await dbConnector.getConnection();
                             var userCollection = mongoConn.collection("goals");
                             var goals = {
-                              "username": username,
+                              "title": username,
                               "dueDate": dueDate,
                               "weekdays": weekdays
                             };
+
                             await userCollection.insertAll([goals]);
 
                             // If the form is valid, display a snackbar. In the real world,

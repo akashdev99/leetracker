@@ -4,20 +4,36 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
 import 'package:leetrack/Components/WidgetContainer.dart';
+import 'package:weekday_selector/weekday_selector.dart';
 
 class Goal extends StatelessWidget {
   final String? Title;
   final bool? Health;
   final String? DueDate;
+  final List<bool>? Weekdays;
   //[1,1,0,0,0,1,1] = [SUN , MON , TUE , WED , THU ,  FRI , SAT ]
-  final List<bool>? ActiveDays;
+
+  List<Widget> getWeekdaysActive(List<bool> Weekdays, BuildContext context) {
+    List<Widget> body = [];
+    List<String> weekdayString = ["S ", "M ", "T ", "W ", "T ", "F ", "S "];
+    Weekdays.asMap().forEach((index, element) {
+      body.add(
+        Text(weekdayString[index],
+            style: element
+                ? TextStyle(color: Colors.purple)
+                : Theme.of(context).textTheme.bodyText1),
+      );
+    });
+    return body;
+  }
+
   final String? Streak;
   const Goal({
     Key? key,
     @required this.Title,
     @required this.Health,
     @required this.DueDate,
-    @required this.ActiveDays,
+    @required this.Weekdays,
     @required this.Streak,
   }) : super(key: key);
 
@@ -29,11 +45,13 @@ class Goal extends StatelessWidget {
         child: Row(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(DueDate!, style: Theme.of(context).textTheme.bodyText1),
                 const SizedBox(height: 50),
-                Text("S M T W T F S",
-                    style: Theme.of(context).textTheme.bodyText1)
+                Row(
+                  children: getWeekdaysActive(Weekdays!, context),
+                )
               ],
             ),
             Expanded(

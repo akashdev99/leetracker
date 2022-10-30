@@ -100,10 +100,6 @@ class _GoalFormState extends State<GoalForm> {
                         onPressed: () async {
                           // Validate returns true if the form is valid, or false otherwise.
                           if (_formKey.currentState!.validate()) {
-                            print(username);
-                            print(dueDate);
-                            print(weekdays);
-
                             DBConnection dbConnector =
                                 DBConnection.getInstance();
                             var mongoConn = await dbConnector.getConnection();

@@ -115,9 +115,7 @@ class _GoalFormState extends State<GoalForm> {
 
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Processing Data')),
-                            );
+                            Navigator.pop(context, goals);
                           }
                         },
                         child: const Text('Submit'),
@@ -133,15 +131,8 @@ class _GoalFormState extends State<GoalForm> {
                                 DBConnection.getInstance();
                             var mongoConn = await dbConnector.getConnection();
                             var userCollection = mongoConn.collection("goals");
-                            var goals = {
-                              "title": username,
-                              "dueDate": dueDate,
-                              "weekdays": weekdays,
-                              "streak": true,
-                            };
 
-                            await userCollection
-                                .remove({"title": "String Base"});
+                            await userCollection.remove({"title": "Dynamic"});
                           }
                         },
                         child: const Text('Delete'),

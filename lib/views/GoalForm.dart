@@ -5,6 +5,7 @@ import 'package:date_field/date_field.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
 import 'package:leetrack/Database/database.dart';
+import 'package:leetrack/Notification/localNotification.dart';
 
 class GoalForm extends StatefulWidget {
   const GoalForm({super.key});
@@ -112,6 +113,12 @@ class _GoalFormState extends State<GoalForm> {
                             };
 
                             await userCollection.insertAll([goals]);
+
+                            LocalNotifcation.AddNotification(
+                                "Leettracker",
+                                "Leetracker body ",
+                                DateTime.now().millisecondsSinceEpoch + 1000,
+                                "channel");
 
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.

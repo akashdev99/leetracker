@@ -114,10 +114,10 @@ class _GoalFormState extends State<GoalForm> {
 
                             await userCollection.insertAll([goals]);
 
-                            LocalNotifcation.AddNotification(
+                            LocalNotifcation.AddRepeatingNotification(
                                 "Leettracker",
                                 "Leetracker body ",
-                                DateTime.now().millisecondsSinceEpoch + 1000,
+                                weekdays,
                                 "channel");
 
                             // If the form is valid, display a snackbar. In the real world,
